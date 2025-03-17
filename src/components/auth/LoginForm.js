@@ -85,9 +85,6 @@ export default function LoginForm() {
                     </button>
                   </div>
                 </form>
-                <div className="mt-3 text-center">
-                  <small>Немає облікового запису? <Link to="/register">Зареєструватися</Link></small>
-                </div>
               </div>
             </div>
           </div>

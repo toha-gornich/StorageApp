@@ -13,10 +13,20 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer'; 
 import InitializeFirebaseData from './InitializeFirebaseData'; 
 
+/*
+Для адміністратора:
 
-// import { Link } from 'react-router-dom';
+Email: admin@example.com
+Пароль: admin123
+Роль: isAdmin: true
 
 
+Для звичайного користувача:
+
+Email: user@example.com
+Пароль: user123
+Роль: isAdmin: false
+*/
 
 export default function App() {
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { app } from './FirebaseConfig';
 import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 function InitializeFirebaseData() {
   const [initialized, setInitialized] = useState(false);
@@ -10,6 +11,7 @@ function InitializeFirebaseData() {
   // const [clearingDB, setClearingDB] = useState(false);
 
   const db = getFirestore(app);
+  const auth = getAuth(app);
 
   // Перевірка чи вже є дані в базі
   const checkExistingData = async () => {
@@ -37,6 +39,50 @@ function InitializeFirebaseData() {
   // Додавання запису до логів
   const addLog = (text) => {
     setLogs(prev => [...prev, { time: new Date().toLocaleTimeString(), text }]);
+  };
+  // Ініціалізація користувачів
+  const initializeUsers = async () => {
+    addLog('Почато додавання користувачів...');
+    
+    try {
+      // Створення адміністратора
+      const adminEmail = 'admin@example.com';
+      const adminPassword = 'admin123';
+      const adminCredential = await createUserWithEmailAndPassword(auth, adminEmail, adminPassword);
+      
+      // Додавання додаткової інформації про адміна в Firestore
+      await addDoc(collection(db, 'users'), {
+        uid: adminCredential.user.uid,
+        email: adminEmail,
+        displayName: 'Адміністратор',
+        isAdmin: true,
+        createdAt: new Date()
+      });
+      
+      addLog(`Додано адміністратора: ${adminEmail}`);
+      
+      // Створення звичайного користувача
+      const userEmail = 'user@example.com';
+      const userPassword = 'user123';
+      const userCredential = await createUserWithEmailAndPassword(auth, userEmail, userPassword);
+      
+      // Додавання додаткової інформації про користувача в Firestore
+      await addDoc(collection(db, 'users'), {
+        uid: userCredential.user.uid,
+        email: userEmail,
+        displayName: 'Звичайний користувач',
+        isAdmin: false,
+        createdAt: new Date()
+      });
+      
+      addLog(`Додано звичайного користувача: ${userEmail}`);
+      
+      return true;
+    } catch (error) {
+      console.error('Помилка при створенні користувачів:', error);
+      addLog(`Помилка при створенні користувачів: ${error.message}`);
+      return false;
+    }
   };
 
   // Ініціалізація всіх даних
