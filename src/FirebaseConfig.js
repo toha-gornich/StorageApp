@@ -1,5 +1,7 @@
 // FirebaseConfig.js
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 
 
@@ -12,6 +14,14 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-// Export the initialized app
+// Ініціалізація Firebase
 export const app = initializeApp(firebaseConfig);
+
+// Ініціалізація та експорт Firestore
+export const db = getFirestore(app);
+
+// Ініціалізація та експорт Auth 
+export const auth = getAuth(app);
+
+
 
