@@ -85,9 +85,9 @@ export default function Header() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/login">Вхід</Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="/register">Реєстрація</Link>
-                </li>
+                </li> */}
               </>
             )}
           </ul>
